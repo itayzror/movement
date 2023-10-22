@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Query,
-  NotFoundException,
   UseGuards,
   HttpException,
 } from '@nestjs/common';
@@ -16,6 +15,7 @@ import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +25,7 @@ export class UsersController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('jwt')
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     try {
@@ -54,6 +55,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('jwt')
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
@@ -64,6 +66,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('jwt')
   @Delete(':id')
   remove(@Param('id') id: string) {
     try {
